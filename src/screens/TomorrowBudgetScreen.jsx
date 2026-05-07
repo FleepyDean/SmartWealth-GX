@@ -11,6 +11,7 @@ import {
   Car,
   Send,
   MapPin,
+  ChevronDown,
 } from 'lucide-react';
 import BudgetDonut from '../components/tomorrow/BudgetDonut.jsx';
 import CategoryRow from '../components/tomorrow/CategoryRow.jsx';
@@ -40,11 +41,40 @@ export default function TomorrowBudgetScreen({ onBack }) {
   const [chat, setChat] = useState([]); // {from:'user'|'dex', text}
   const [input, setInput] = useState('');
   const [adjustOpen, setAdjustOpen] = useState(false);
+  const [descExpanded, setDescExpanded] = useState(false);
   const chipsRef = useHorizontalScroll();
   const chatRef = useRef(null);
 
   const total = plan.food + plan.transport + plan.entertainment + plan.others;
   const pct = (v) => Math.round((v / total) * 100);
+
+  const generateDetailedPlan = () => {
+    return `Expected total spending: RM${total}.00
+
+☀️ Breakfast 
+Campus Canteen: Coffee + sandwich (RM${plan.meal.price * 0.4}.00)
+
+🎓 Lunch 
+Calendar Event detected: ${plan.meal.place}
+Recommended budget meal: ${plan.meal.name} (RM${plan.meal.price}.00)
+
+🚌 Transport
+${plan.transportMode.name} : RM${plan.transportMode.price}.00 round trip
+
+🛒 Predicted Extra Spending
+You may visit Watsons or convenience stores after 6 PM based on recent patterns.
+Estimated additional spending: RM${plan.entertainment}.00
+
+🌙 Dinner
+Restaurant C (Grab Delivery) : Nasi Lemak (RM${plan.meal.price * 0.6}.00)
+
+🛡️ AI Emergency Buffer
+RM${plan.others}.00 has been reserved for possible unexpected expenses.
+
+⚠️ AI Budget Alert
+No Shopee activity detected in the past 2 months.
+Dex recommends pausing your VIP subscription to save RM15.90/month.`;
+  };
 
   const segments = useMemo(
     () => [
@@ -127,6 +157,8 @@ export default function TomorrowBudgetScreen({ onBack }) {
   ];
 
   const TransportIcon = plan.transportMode.icon === 'car' ? Car : Bus;
+  const detailedPlan = generateDetailedPlan();
+  const firstLine = detailedPlan.split('\n')[0];
 
   return (
     <div className="relative h-full w-full text-white flex flex-col">
@@ -209,11 +241,23 @@ export default function TomorrowBudgetScreen({ onBack }) {
             </p>
           </div>
 
-          <p className="text-[12px] text-text-secondary mt-3 leading-relaxed">
-            {revised
-              ? `Plan revised. Your updated total is RM${total}.00 — we still recommend ${plan.meal.name} (RM${plan.meal.price}.00) at ${plan.meal.place}.`
-              : plan.rationale}
-          </p>
+          {/* Description - Collapsible */}
+          <div className="mt-3">
+            {descExpanded ? (
+              <div className="text-[12px] text-text-secondary leading-relaxed whitespace-pre-wrap">
+                {detailedPlan}
+              </div>
+            ) : (
+              <p className="text-[12px] text-text-secondary leading-relaxed">{firstLine}</p>
+            )}
+            <button
+              onClick={() => setDescExpanded(!descExpanded)}
+              className="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-violet-glow hover:text-violet-400 transition-colors"
+            >
+              <ChevronDown size={14} className={`transition-transform ${descExpanded ? 'rotate-180' : ''}`} />
+              {descExpanded ? 'Show less' : 'Show more'}
+            </button>
+          </div>
 
           {/* Suggestion tiles */}
           <div className="mt-3 grid grid-cols-2 gap-2">
