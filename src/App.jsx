@@ -4,12 +4,39 @@ import HomeScreen from './screens/HomeScreen.jsx';
 import DexChatScreen from './screens/DexChatScreen.jsx';
 import GoalPlannerScreen from './screens/GoalPlannerScreen.jsx';
 import TomorrowBudgetScreen from './screens/TomorrowBudgetScreen.jsx';
+import SpinAndWinScreen from './screens/SpinAndWinScreen.jsx';
+import SnapAndLogScreen from './screens/SnapAndLogScreen.jsx';
+import VisualExpenseGalleryScreen, { SAMPLE_EXPENSES } from './screens/VisualExpenseGalleryScreen.jsx';
 import NudgeOverlay from './components/overlays/NudgeOverlay.jsx';
-import { Bell } from 'lucide-react';
+import DexAnalysisOverlay from './components/overlays/DexAnalysisOverlay.jsx';
+import { Bell, Dices } from 'lucide-react';
 
 export default function App() {
-  const [screen, setScreen] = useState('home'); // home | dex | planner
+  const [screen, setScreen] = useState('home'); // home | dex | planner | tomorrow | spin | snap | gallery
   const [nudgeOpen, setNudgeOpen] = useState(false);
+  const [analysisOpen, setAnalysisOpen] = useState(false);
+  const [capturedData, setCapturedData] = useState(null);
+  const [galleryExpenses, setGalleryExpenses] = useState(SAMPLE_EXPENSES);
+
+  const addConfirmedExpenseToGallery = (data) => {
+    const currentPrice = Number.parseFloat(data?.price ?? '0') || 0;
+    const suggestedPrice = 8;
+    const saved = Math.max(currentPrice - suggestedPrice, 0);
+    const emoji = data?.category === 'receipt' ? '🧾' : '🍜';
+
+    setGalleryExpenses((current) => [
+      {
+        id: Date.now(),
+        emoji,
+        name: data?.description?.trim() || 'Meal',
+        price: currentPrice,
+        saved,
+        date: new Date().toISOString().slice(0, 10),
+        image: data?.image || null,
+      },
+      ...current,
+    ]);
+  };
 
   return (
     <>
@@ -20,8 +47,13 @@ export default function App() {
       {screen === 'home' && (
         <HomeScreen
           onOpenDex={() => setScreen('dex')}
+          onOpenSpin={() => setScreen('spin')}
           onOpenTomorrow={() => setScreen('tomorrow')}
-          onNavigate={() => {}}
+          onNavigate={(tab) => {
+            if (tab === 'upload') {
+              setScreen('gallery');
+            }
+          }}
         />
       )}
       {screen === 'dex' && (
@@ -43,6 +75,53 @@ export default function App() {
           }}
         />
       )}
+      {screen === 'spin' && (
+        <SpinAndWinScreen
+          onBack={() => setScreen('home')}
+        />
+      )}
+      {screen === 'snap' && (
+        <SnapAndLogScreen
+          onBack={() => setScreen('home')}
+          onCapture={(data) => {
+            setCapturedData(data);
+            setAnalysisOpen(true);
+          }}
+        />
+      )}
+      {screen === 'gallery' && (
+        <VisualExpenseGalleryScreen
+          onBack={() => setScreen('home')}
+          onSnapPhoto={() => setScreen('snap')}
+          expenses={galleryExpenses}
+          onOpenAnalysis={(expense) => {
+            // Open the existing analysis overlay pre-filled with this expense
+            setCapturedData({
+              image: expense.image || null,
+              description: expense.name,
+              price: String(expense.price),
+            });
+            setAnalysisOpen(true);
+          }}
+        />
+      )}
+
+      <DexAnalysisOverlay
+        open={analysisOpen}
+        image={capturedData?.image}
+        mealName={capturedData?.description || 'Meal'}
+        currentPrice={capturedData?.price || '0.00'}
+        suggestedPrice="8.00"
+        savingsAmount="12.00"
+        onConfirm={() => {
+          if (capturedData) {
+            addConfirmedExpenseToGallery(capturedData);
+          }
+          setAnalysisOpen(false);
+          setScreen('gallery');
+        }}
+        onRetake={() => setAnalysisOpen(false)}
+      />
 
       <NudgeOverlay
         open={nudgeOpen}

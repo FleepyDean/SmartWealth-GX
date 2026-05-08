@@ -1,19 +1,10 @@
 import React from 'react';
-import { Home, User } from 'lucide-react';
-
-const OxoxIcon = ({ active }) => (
-  <svg viewBox="0 0 28 12" width="36" height="16" fill="none" stroke="currentColor" strokeWidth="2">
-    <circle cx="4" cy="6" r="3" />
-    <path d="M9 2l4 8M13 2l-4 8" strokeLinecap="round" />
-    <circle cx="18" cy="6" r="3" />
-    <path d="M23 2l4 8M27 2l-4 8" strokeLinecap="round" />
-  </svg>
-);
+import { Home, User, Upload } from 'lucide-react';
 
 export default function BottomNav({ active = 'home', onChange }) {
   const tabs = [
     { id: 'home', label: 'Home', icon: Home },
-    { id: 'discover', label: 'Discover', icon: null },
+    { id: 'upload', label: 'Upload', icon: Upload },
     { id: 'me', label: 'Me', icon: User },
   ];
   return (
@@ -30,11 +21,7 @@ export default function BottomNav({ active = 'home', onChange }) {
                 isActive ? 'text-white' : 'text-text-muted'
               }`}
             >
-              {t.id === 'discover' ? (
-                <OxoxIcon active={isActive} />
-              ) : (
-                <Icon size={22} strokeWidth={2} />
-              )}
+              <Icon size={22} strokeWidth={2} />
               <span className="text-[11px] font-medium">{t.label}</span>
             </button>
           );
