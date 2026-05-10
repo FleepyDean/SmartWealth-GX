@@ -2,7 +2,7 @@
 
 ## Overview
 
-A fully-implemented gamification feature that encourages daily saving habits through an interactive spinning wheel game. Users earn spins by maintaining a RM10+ daily savings streak and can win various rewards.
+A fully-implemented gamification feature that encourages daily saving habits through an interactive spinning wheel game. Users earn spins by maintaining a RM30+ daily savings streak and can win various rewards.
 
 ---
 
@@ -42,7 +42,7 @@ Displays the weekly savings challenge progress and available spins.
 #### **2.1 Header Section**
 - Bold title: "Weekly Savings Challenge"
 - Motivational subtext with completed days counter
-- Example: "Save RM10 daily to earn a spin! (5/7 Days completed)"
+- Example: "Save RM30 daily to earn a spin! (5/7 Days completed)"
 
 #### **2.2 Progress Tracker**
 - 7 circular nodes representing each day of the week

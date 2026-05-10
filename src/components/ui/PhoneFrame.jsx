@@ -6,8 +6,12 @@ import React from 'react';
  */
 export default function PhoneFrame({ children }) {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-6 bg-[radial-gradient(circle_at_30%_10%,#2A1352_0%,#070110_55%)]">
-      <div className="relative w-[390px] h-[844px] rounded-[48px] bg-black p-[6px] shadow-[0_30px_120px_rgba(124,58,237,0.35)] ring-1 ring-white/5">
+    <div className="min-h-screen w-full flex items-center justify-center p-6 bg-[radial-gradient(circle_at_30%_10%,#3a1a6b_0%,#050108_60%),radial-gradient(circle_at_75%_85%,#5b1a8e_0%,transparent_55%)] relative overflow-hidden">
+      {/* Ambient orbs behind the phone */}
+      <div className="pointer-events-none absolute -top-40 -left-40 h-[500px] w-[500px] rounded-full bg-violet-glow/15 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-40 -right-40 h-[500px] w-[500px] rounded-full bg-accent-pink/10 blur-3xl" />
+
+      <div className="relative w-[390px] h-[844px] rounded-[48px] bg-gradient-to-b from-[#0a0a0d] to-[#000000] p-[6px] shadow-[0_40px_140px_rgba(124,58,237,0.45),0_0_0_1px_rgba(255,255,255,0.04)] ring-1 ring-white/5">
         <div className="relative w-full h-full overflow-hidden rounded-[44px] bg-app-gradient">
           {/* Notch */}
           <div className="absolute left-1/2 -translate-x-1/2 top-2 z-50 h-7 w-32 rounded-full bg-black" />

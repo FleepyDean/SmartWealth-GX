@@ -50,7 +50,7 @@ export default function TripDraftCard({ onCreate }) {
           onClick={onCreate}
           className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-violet-grad py-3 text-[14px] font-semibold text-white shadow-[0_8px_28px_rgba(124,58,237,0.55)] hover:brightness-110"
         >
-          Create Savings Pocket & Automate
+          Create Savings Pocket
           <ArrowRight size={16} />
         </button>
       </div>

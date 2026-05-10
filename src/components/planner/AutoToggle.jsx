@@ -14,13 +14,13 @@ export default function AutoToggle({ icon, title, subtitle, on, onChange }) {
         role="switch"
         aria-checked={on}
         onClick={() => onChange(!on)}
-        className={`relative h-7 w-12 rounded-full transition-colors shrink-0 ${
-          on ? 'bg-violet-grad' : 'bg-white/10'
+        className={`relative h-7 w-[52px] rounded-full transition-colors duration-300 shrink-0 ${
+          on ? 'bg-violet-grad shadow-[0_0_12px_rgba(124,58,237,0.5)]' : 'bg-white/15'
         }`}
       >
         <span
-          className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow transition-transform ${
-            on ? 'translate-x-5' : 'translate-x-0.5'
+          className={`absolute top-[3px] left-[3px] h-[22px] w-[22px] rounded-full bg-white shadow-md transition-transform duration-300 ${
+            on ? 'translate-x-[25px]' : 'translate-x-0'
           }`}
         />
       </button>

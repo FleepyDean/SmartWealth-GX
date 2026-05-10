@@ -2,14 +2,20 @@ import React, { useState } from 'react';
 import { ChevronLeft, Plus, Sparkles, X } from 'lucide-react';
 import BottomNav from '../components/ui/BottomNav.jsx';
 
-// Sample expense data
+// Sample expense data with real Unsplash food photos
 export const SAMPLE_EXPENSES = [
-  { id: 1, emoji: '🍜', name: 'Nasi Goreng', price: 20, saved: 12, date: '2024-10-15' },
-  { id: 2, emoji: '☕', name: 'Coffee', price: 8, saved: 2, date: '2024-10-14' },
-  { id: 3, emoji: '🍕', name: 'Pizza', price: 35, saved: 5, date: '2024-10-13' },
-  { id: 4, emoji: '🥗', name: 'Salad', price: 18, saved: 3, date: '2024-10-12' },
-  { id: 5, emoji: '🍔', name: 'Burger', price: 15, saved: 4, date: '2024-10-11' },
-  { id: 6, emoji: '🍱', name: 'Bento Box', price: 25, saved: 8, date: '2024-10-10' },
+  { id: 1, emoji: '🍜', name: 'Nasi Goreng', price: 20, saved: 12, date: '2026-5-9', category: 'Lunch',
+    image: 'https://images.unsplash.com/photo-1637759079728-3f900db7a782?w=400&q=80' },
+  { id: 2, emoji: '☕', name: 'Flat White', price: 8, saved: 2, date: '2026-5-9', category: 'Drinks',
+    image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80' },
+  { id: 3, emoji: '🍕', name: 'Margherita Pizza', price: 35, saved: 5, date: '2026-5-8', category: 'Dinner',
+    image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80' },
+  { id: 4, emoji: '🥗', name: 'Caesar Salad', price: 18, saved: 3, date: '2026-5-8', category: 'Lunch',
+    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80' },
+  { id: 5, emoji: '🍔', name: 'Smash Burger', price: 15, saved: 4, date: '2026-5-7', category: 'Lunch',
+    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80' },
+  { id: 6, emoji: '🍱', name: 'Bento Box', price: 25, saved: 8, date: '2026-5-7', category: 'Dinner',
+    image: 'https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=400&q=80' },
 ];
 
 export default function VisualExpenseGalleryScreen({ onBack, onSnapPhoto, onOpenAnalysis, expenses = SAMPLE_EXPENSES }) {
@@ -21,52 +27,53 @@ export default function VisualExpenseGalleryScreen({ onBack, onSnapPhoto, onOpen
 
   return (
     <div className="relative h-full w-full text-white overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 bg-app-gradient" />
 
       <div className="relative h-full w-full overflow-y-auto pb-24 no-scrollbar">
         {/* Header */}
-        <div className="sticky top-0 z-20 bg-app-gradient/95 backdrop-blur px-5 pt-4 pb-4 border-b border-white/5">
-          <div className="flex items-center justify-between mb-4">
+        <div className="sticky top-0 z-20 glass-strong px-5 pt-4 pb-4 border-b border-white/5">
+          <div className="flex items-center justify-between">
             <button
               onClick={onBack}
-              className="h-9 w-9 rounded-full bg-white/10 ring-1 ring-white/15 flex items-center justify-center hover:bg-white/15 transition-colors"
+              className="tap h-9 w-9 rounded-full bg-white/10 ring-1 ring-white/15 flex items-center justify-center hover:bg-white/15"
             >
               <ChevronLeft size={20} />
             </button>
-            <p className="text-[16px] font-semibold">October Food Diary</p>
+            <div className="text-center">
+              <p className="text-[16px] font-bold">Food Diary</p>
+              <p className="text-[11px] text-text-secondary">May 2026</p>
+            </div>
             <button
               onClick={onSnapPhoto}
-              className="h-9 w-9 rounded-full bg-violet-grad ring-1 ring-white/15 flex items-center justify-center hover:brightness-110 transition-all shadow-[0_4px_12px_rgba(124,58,237,0.4)]"
+              className="tap h-9 w-9 rounded-full bg-violet-grad ring-1 ring-white/15 flex items-center justify-center hover:brightness-110 shadow-[0_4px_14px_rgba(124,58,237,0.5)]"
             >
               <Plus size={20} strokeWidth={2.5} />
             </button>
           </div>
 
-          {/* Summary Stats */}
-          <div className="grid grid-cols-2 gap-3">
-            {/* Total Logged */}
-            <div className="rounded-2xl bg-white/10 ring-1 ring-white/15 p-3">
-              <p className="text-[10px] text-text-secondary uppercase tracking-wider font-semibold mb-0.5">
-                Total Logged
-              </p>
-              <p className="text-[18px] font-bold text-white">RM{totalLogged.toFixed(2)}</p>
+          {/* Stat strip */}
+          <div className="mt-4 flex items-center gap-3">
+            <div className="flex-1 rounded-2xl bg-white/6 ring-1 ring-white/8 px-4 py-3">
+              <p className="text-[10px] text-text-muted uppercase tracking-widest font-semibold">Spent</p>
+              <p className="text-[20px] font-extrabold text-white leading-tight">RM{totalLogged.toFixed(0)}</p>
             </div>
-
-            {/* AI Savings */}
-            <div className="rounded-2xl bg-gradient-to-br from-accent-mint/20 to-emerald-500/20 ring-1 ring-accent-mint/40 p-3">
-              <p className="text-[10px] text-accent-mint uppercase tracking-wider font-semibold mb-0.5">
-                AI Savings Found
-              </p>
-              <div className="flex items-baseline gap-1">
-                <p className="text-[18px] font-bold text-white">RM{totalSaved.toFixed(2)}</p>
-                <Sparkles size={14} className="text-accent-mint" strokeWidth={2.5} />
+            <div className="h-10 w-px bg-white/8" />
+            <div className="flex-1 rounded-2xl bg-accent-mint/8 ring-1 ring-accent-mint/20 px-4 py-3">
+              <p className="text-[10px] text-accent-mint uppercase tracking-widest font-semibold">AI Saved</p>
+              <div className="flex items-center gap-1.5">
+                <p className="text-[20px] font-extrabold text-white leading-tight">RM{totalSaved.toFixed(0)}</p>
+                <Sparkles size={13} className="text-accent-mint mb-0.5" />
               </div>
+            </div>
+            <div className="h-10 w-px bg-white/8" />
+            <div className="flex-1 rounded-2xl bg-white/6 ring-1 ring-white/8 px-4 py-3">
+              <p className="text-[10px] text-text-muted uppercase tracking-widest font-semibold">Meals</p>
+              <p className="text-[20px] font-extrabold text-white leading-tight">{expenses.length}</p>
             </div>
           </div>
         </div>
 
-        {/* Gallery Grid */}
+        {/* Gallery */}
         {isEmpty ? (
           <div className="h-full flex items-center justify-center px-5">
             <div className="text-center">
@@ -77,7 +84,7 @@ export default function VisualExpenseGalleryScreen({ onBack, onSnapPhoto, onOpen
               </p>
               <button
                 onClick={onSnapPhoto}
-                className="inline-flex items-center gap-2 rounded-2xl bg-violet-grad px-6 py-3 text-[14px] font-bold text-white shadow-[0_8px_28px_rgba(124,58,237,0.55)] hover:brightness-110 active:scale-[0.98] transition-all"
+                className="tap inline-flex items-center gap-2 rounded-2xl bg-violet-grad px-6 py-3 text-[14px] font-bold text-white shadow-[0_8px_28px_rgba(124,58,237,0.55)] hover:brightness-110"
               >
                 <Plus size={18} strokeWidth={2.5} />
                 Snap Your First Photo
@@ -85,152 +92,156 @@ export default function VisualExpenseGalleryScreen({ onBack, onSnapPhoto, onOpen
             </div>
           </div>
         ) : (
-          <div className="px-3.5 py-5">
-            <div className="grid grid-cols-2 gap-3">
-              {expenses.map((expense) => (
-                <div
-                  key={expense.id}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => setSelectedExpense(expense)}
-                  onKeyDown={(e) => { if (e.key === 'Enter') setSelectedExpense(expense); }}
-                  className="group relative aspect-square rounded-2xl overflow-hidden ring-1 ring-white/10 cursor-pointer"
-                >
-                  {/* Image Placeholder */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-violet/30 via-magenta/20 to-bg-800 flex items-center justify-center group-hover:brightness-110 transition-all overflow-hidden">
-                    {expense.image ? (
-                      <img
-                        src={expense.image}
-                        alt={expense.name}
-                        className="h-full w-full object-cover opacity-90"
-                      />
-                    ) : (
-                      <p className="text-[48px]">{expense.emoji}</p>
-                    )}
-                  </div>
+          <div className="px-3 pt-4 pb-2">
+            {/* Masonry-style 2-col grid with alternating tall/short */}
+            <div className="grid grid-cols-2 gap-2.5">
+              {expenses.map((expense, idx) => {
+                const isTall = idx % 3 === 0;
+                return (
+                  <div
+                    key={expense.id}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setSelectedExpense(expense)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') setSelectedExpense(expense); }}
+                    className={`group tap relative overflow-hidden rounded-2xl cursor-pointer ring-1 ring-white/5 ${
+                      isTall ? 'row-span-1' : ''
+                    }`}
+                    style={{ aspectRatio: isTall ? '3/4' : '1/1' }}
+                  >
+                    {/* Photo */}
+                    <img
+                      src={expense.image}
+                      alt={expense.name}
+                      className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
 
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    {/* Gradient scrim */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
 
-                  {/* Bottom Info Pill */}
-                  <div className="absolute bottom-3 left-3 right-3 flex items-center gap-2">
-                    <div className="inline-flex items-center gap-1.5 rounded-full bg-black/70 ring-1 ring-white/20 px-2.5 py-1.5 backdrop-blur">
-                      <span className="text-[14px] font-bold text-white">RM{expense.price}</span>
-                      <span className="text-[12px]">{expense.emoji}</span>
-                    </div>
-                    {expense.saved > 0 && (
-                      <div className="ml-auto inline-flex items-center gap-1 rounded-full bg-accent-mint/20 ring-1 ring-accent-mint/50 px-2 py-1 backdrop-blur">
-                        <Sparkles size={12} className="text-accent-mint" strokeWidth={2.5} />
-                        <span className="text-[10px] font-bold text-accent-mint">Save RM{expense.saved}</span>
+                    {/* Category chip top-left */}
+                    {expense.category && (
+                      <div className="absolute top-2.5 left-2.5">
+                        <span className="rounded-full bg-black/50 backdrop-blur-sm px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest text-white/80 ring-1 ring-white/10">
+                          {expense.category}
+                        </span>
                       </div>
                     )}
-                  </div>
 
-                  {/* Item Name (Hidden, shows on hover) */}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <div className="text-center">
-                      <p className="text-[13px] font-semibold text-white">{expense.name}</p>
-                      <p className="text-[11px] text-text-secondary mt-1">
-                        {new Date(expense.date).toLocaleDateString('en-US', {
-                          month: 'short',
-                          day: 'numeric',
-                        })}
-                      </p>
+                    {/* Savings badge top-right */}
+                    {expense.saved > 0 && (
+                      <div className="absolute top-2.5 right-2.5">
+                        <div className="flex items-center gap-0.5 rounded-full bg-accent-mint/80 backdrop-blur-sm px-2 py-1 shadow-sm">
+                          <Sparkles size={10} className="text-bg-900" strokeWidth={2.5} />
+                          <span className="text-[9px] font-extrabold text-bg-900">-RM{expense.saved}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Bottom info */}
+                    <div className="absolute bottom-0 left-0 right-0 px-3 pb-3 pt-6">
+                      <p className="text-[13px] font-bold text-white leading-tight truncate">{expense.name}</p>
+                      <div className="flex items-center justify-between mt-1">
+                        <span className="text-[18px] font-extrabold text-white leading-none">RM{expense.price}</span>
+                        <span className="text-[10px] text-white/60">
+                          {new Date(expense.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
-            {/* Load More Section */}
-            <div className="mt-8 text-center">
-              <p className="text-[12px] text-text-secondary">
-                Showing {expenses.length} expenses from October
-              </p>
-              <button className="mt-4 rounded-2xl bg-white/10 ring-1 ring-white/20 px-6 py-2.5 text-[13px] font-semibold text-white hover:bg-white/15 transition-all">
-                Load More
-              </button>
-            </div>
+            <p className="text-center text-[11px] text-text-muted mt-5 mb-1">
+              {expenses.length} meals logged · May 2026
+            </p>
           </div>
         )}
       </div>
 
-      {/* Expense Detail Modal */}
+      {/* Expense Detail Bottom Sheet */}
       {selectedExpense && (
-        <div className="absolute inset-0 z-40 flex items-end justify-center">
+        <div className="absolute inset-0 z-40 flex items-end">
           <div
             onClick={() => setSelectedExpense(null)}
-            className="absolute inset-0 bg-black/60 backdrop-blur-[3px]"
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm animate-fadeIn"
           />
 
-          <div className="relative w-full max-h-[80vh] overflow-y-auto no-scrollbar animate-floatUp px-5 pb-6">
-            <div className="glass card-hi rounded-t-3xl p-5 ring-1 ring-white/15">
+          <div className="relative w-full animate-floatUp">
+            {/* Hero image strip */}
+            <div className="relative h-52 w-full overflow-hidden">
+              <img
+                src={selectedExpense.image}
+                alt={selectedExpense.name}
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1A0B2E] via-black/20 to-transparent" />
               <button
                 onClick={() => setSelectedExpense(null)}
-                className="absolute right-4 top-4 z-10 h-9 w-9 rounded-full bg-white/10 ring-1 ring-white/15 flex items-center justify-center hover:bg-white/15 transition-colors"
+                className="tap absolute right-4 top-4 h-8 w-8 rounded-full bg-black/50 backdrop-blur ring-1 ring-white/20 flex items-center justify-center"
               >
-                <X size={18} />
+                <X size={16} />
               </button>
+              {selectedExpense.category && (
+                <span className="absolute top-4 left-4 rounded-full bg-black/50 backdrop-blur px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white/90 ring-1 ring-white/10">
+                  {selectedExpense.category}
+                </span>
+              )}
+            </div>
 
-              <div className="text-white pt-2">
-                <div className="w-full flex items-center justify-center mb-4">
-                  {selectedExpense.image ? (
-                    <div className="w-full max-w-[240px] overflow-hidden rounded-2xl ring-1 ring-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.35)]">
-                      <img
-                        src={selectedExpense.image}
-                        alt={selectedExpense.name}
-                        className="h-40 w-full object-cover"
-                      />
-                    </div>
-                  ) : (
-                    <div className="h-28 w-28 rounded-2xl bg-gradient-to-br from-violet/20 to-magenta/20 flex items-center justify-center text-[56px]">
-                      {selectedExpense.emoji}
-                    </div>
-                  )}
-                </div>
-
-                <div className="text-center mb-4">
-                  <p className="text-[18px] font-bold">{selectedExpense.name}</p>
-                  <p className="text-[12px] text-text-secondary">{new Date(selectedExpense.date).toLocaleDateString()}</p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3 mb-4">
-                  <div className="rounded-2xl bg-white/5 p-4">
-                    <p className="text-[11px] text-text-secondary uppercase tracking-wider font-semibold mb-1">Price</p>
-                    <p className="text-[20px] font-bold">RM{selectedExpense.price}</p>
-                  </div>
-                  <div className="rounded-2xl bg-accent-mint/10 p-4">
-                    <p className="text-[11px] text-accent-mint uppercase tracking-wider font-semibold mb-1">Saved</p>
-                    <p className="text-[20px] font-bold text-white">RM{selectedExpense.saved}</p>
-                    <p className="text-[12px] text-accent-mint mt-1">
-                      {selectedExpense.price > 0 ? Math.round((selectedExpense.saved / selectedExpense.price) * 100) : 0}% saved
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mb-3">
-                  <p className="text-[13px] text-text-secondary leading-relaxed">
-                    This is the AI-estimated saving for this item - the gap between what you paid and the suggested price. Use "Log Expense & Update Budget" in the analysis overlay to add confirmed items to your gallery.
+            {/* Sheet body */}
+            <div className="glass-strong ring-1 ring-white/10 px-5 pt-5 pb-8">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <p className="text-[20px] font-extrabold text-white">{selectedExpense.name}</p>
+                  <p className="text-[12px] text-text-secondary mt-0.5">
+                    {new Date(selectedExpense.date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
                   </p>
                 </div>
-
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => setSelectedExpense(null)}
-                    className="flex-1 rounded-2xl bg-violet-grad py-3 text-[14px] font-bold text-white"
-                  >
-                    Close
-                  </button>
-                  <button
-                    onClick={() => {
-                      onOpenAnalysis?.(selectedExpense);
-                      setSelectedExpense(null);
-                    }}
-                    className="flex-1 rounded-2xl bg-transparent ring-1 ring-white/20 py-3 text-[14px] font-semibold text-white"
-                  >
-                    Edit
-                  </button>
+                <div className="text-right">
+                  <p className="text-[26px] font-extrabold text-white leading-none">RM{selectedExpense.price}</p>
+                  {selectedExpense.saved > 0 && (
+                    <span className="inline-flex items-center gap-1 mt-1 rounded-full bg-accent-mint/20 ring-1 ring-accent-mint/40 px-2.5 py-0.5">
+                      <Sparkles size={10} className="text-accent-mint" />
+                      <span className="text-[11px] font-bold text-accent-mint">Saved RM{selectedExpense.saved}</span>
+                    </span>
+                  )}
                 </div>
+              </div>
+
+              {/* Stat row */}
+              <div className="flex gap-2 mb-5">
+                <div className="flex-1 rounded-2xl bg-white/5 ring-1 ring-white/8 p-3 text-center">
+                  <p className="text-[10px] text-text-muted uppercase tracking-widest font-semibold">You Paid</p>
+                  <p className="text-[18px] font-bold text-white">RM{selectedExpense.price}</p>
+                </div>
+                <div className="flex-1 rounded-2xl bg-accent-mint/8 ring-1 ring-accent-mint/20 p-3 text-center">
+                  <p className="text-[10px] text-accent-mint uppercase tracking-widest font-semibold">AI Saved</p>
+                  <p className="text-[18px] font-bold text-white">RM{selectedExpense.saved}</p>
+                </div>
+                <div className="flex-1 rounded-2xl bg-white/5 ring-1 ring-white/8 p-3 text-center">
+                  <p className="text-[10px] text-text-muted uppercase tracking-widest font-semibold">Saved</p>
+                  <p className="text-[18px] font-bold text-white">
+                    {selectedExpense.price > 0 ? Math.round((selectedExpense.saved / selectedExpense.price) * 100) : 0}%
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setSelectedExpense(null)}
+                  className="tap flex-1 rounded-2xl bg-violet-grad py-3.5 text-[14px] font-bold text-white shadow-[0_8px_24px_rgba(124,58,237,0.45)] hover:brightness-110"
+                >
+                  Done
+                </button>
+                <button
+                  onClick={() => { onOpenAnalysis?.(selectedExpense); setSelectedExpense(null); }}
+                  className="tap flex-1 rounded-2xl bg-white/8 ring-1 ring-white/15 py-3.5 text-[14px] font-semibold text-white hover:bg-white/12"
+                >
+                  Re-analyse
+                </button>
               </div>
             </div>
           </div>

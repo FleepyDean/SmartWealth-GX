@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from 'react';
 import {
-  ArrowLeft,
+  ChevronLeft,
   Bell,
   X,
   Pencil,
@@ -29,10 +29,10 @@ const BASE_PLAN = {
   transport: 8,
   entertainment: 25,
   others: 12,
-  meal: { name: 'Chicken Chop', price: 15, place: 'Restaurant AA' },
+  meal: { name: 'Chicken Chop', price: 15, place: 'Mama Kim Kopitiam' },
   transportMode: { name: 'Public Bus', price: 8, sub: 'per trip (est.)', icon: 'bus' },
   rationale:
-    'Based on your Google Calendar, you are likely to visit Restaurant AA tomorrow. Your food budget is expected to increase by RM20.00. Suggested option: Chicken Chop (RM15.00) to keep costs lean. Recommended transport: Public Bus (approx. RM8.00 return).',
+    'Based on your Google Calendar, you are likely to visit Mama Kim Kopitiam tomorrow. Your food budget is expected to increase by RM20.00. Suggested option: Chicken Chop (RM15.00) to keep costs lean. Recommended transport: Public Bus (approx. RM8.00 return).',
 };
 
 export default function TomorrowBudgetScreen({ onBack }) {
@@ -163,16 +163,16 @@ Dex recommends pausing your VIP subscription to save RM15.90/month.`;
   return (
     <div className="relative h-full w-full text-white flex flex-col">
       {/* Header */}
-      <div className="px-5 pt-3 pb-1 flex items-center justify-between">
+      <div className="px-5 pt-4 pb-2 flex items-center justify-between">
         <button
           onClick={onBack}
-          className="h-10 w-10 rounded-full bg-white/5 ring-1 ring-white/10 flex items-center justify-center"
+          className="tap h-9 w-9 rounded-full bg-white/10 ring-1 ring-white/15 flex items-center justify-center hover:bg-white/15"
           aria-label="Back"
         >
-          <ArrowLeft size={18} />
+          <ChevronLeft size={20} />
         </button>
-        <p className="text-[12px] uppercase tracking-wider text-text-muted">Predicted spend</p>
-        <div className="h-10 w-10" />
+        <p className="text-[12px] uppercase tracking-wider text-text-muted font-semibold">Predicted spend</p>
+        <div className="h-9 w-9" />
       </div>
 
       <div className="flex-1 overflow-y-auto no-scrollbar px-5 pb-5">
@@ -298,17 +298,8 @@ Dex recommends pausing your VIP subscription to save RM15.90/month.`;
             <Bell size={15} /> Apply & Remind
           </button>
           <button
-            onClick={() => {
-              const next = !adjustOpen;
-              setAdjustOpen(next);
-              if (next) {
-                setTimeout(
-                  () => chatRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
-                  60
-                );
-              }
-            }}
-            className="rounded-2xl bg-white/5 ring-1 ring-white/15 py-3.5 text-[14px] font-semibold text-white hover:bg-white/10 inline-flex items-center justify-center gap-2"
+            onClick={() => setAdjustOpen(!adjustOpen)}
+            className="tap rounded-2xl bg-white/5 ring-1 ring-white/15 py-3.5 text-[14px] font-semibold text-white hover:bg-white/10 inline-flex items-center justify-center gap-2"
           >
             {adjustOpen ? <X size={15} /> : <Pencil size={15} />}{' '}
             {adjustOpen ? 'Close' : 'Adjust Plan'}

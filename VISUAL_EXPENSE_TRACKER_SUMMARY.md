@@ -43,7 +43,7 @@ A new Gen Z-friendly expense logging feature that lets users snap pictures of th
 ---
 
 ### **3. VisualExpenseGalleryScreen** (`src/screens/VisualExpenseGalleryScreen.jsx`)
-- 📅 Monthly title (e.g., "October Food Diary")
+- 📅 Monthly title (e.g., "Your Food Diary")
 - 📊 Summary stats: Total Logged + AI Savings Found
 - 🖼️ Instagram-style 2-column grid
 - 🏷️ Price overlay pills on each image

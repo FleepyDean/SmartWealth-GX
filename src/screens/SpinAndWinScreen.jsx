@@ -23,18 +23,18 @@ export default function SpinAndWinScreen({ onBack }) {
 
       <div className="h-full w-full overflow-y-auto pb-10 no-scrollbar">
         {/* Header */}
-        <div className="px-5 pt-12 pb-3 flex items-center justify-between">
+        <div className="px-5 pt-4 pb-3 flex items-center justify-between">
           <button
             onClick={onBack}
-            className="h-9 w-9 rounded-full bg-white/10 ring-1 ring-white/15 flex items-center justify-center hover:bg-white/15"
+            className="tap h-9 w-9 rounded-full bg-white/10 ring-1 ring-white/15 flex items-center justify-center hover:bg-white/15"
           >
             <ChevronLeft size={20} />
           </button>
           <div className="flex items-center gap-2">
-            <Trophy size={16} className="text-amber-300" />
-            <p className="text-[14px] font-semibold tracking-wide">Spin & Win</p>
+            <Trophy size={16} className="text-amber-300 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]" />
+            <p className="text-[15px] font-bold tracking-wide">Spin & Win</p>
           </div>
-          <button className="h-9 w-9 rounded-full bg-white/10 ring-1 ring-white/15 flex items-center justify-center hover:bg-white/15">
+          <button className="tap h-9 w-9 rounded-full bg-white/10 ring-1 ring-white/15 flex items-center justify-center hover:bg-white/15">
             <Info size={18} />
           </button>
         </div>
@@ -96,7 +96,7 @@ export default function SpinAndWinScreen({ onBack }) {
 
         {/* Footer fine print */}
         <p className="px-5 mt-6 text-[11px] text-text-muted leading-relaxed text-center">
-          Save at least RM10 every day to unlock spins. Prizes are credited within 24 hours.
+          Save at least RM30 every day to unlock spins. Prizes are credited within 24 hours.
         </p>
       </div>
 

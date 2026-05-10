@@ -7,16 +7,51 @@ import TomorrowBudgetScreen from './screens/TomorrowBudgetScreen.jsx';
 import SpinAndWinScreen from './screens/SpinAndWinScreen.jsx';
 import SnapAndLogScreen from './screens/SnapAndLogScreen.jsx';
 import VisualExpenseGalleryScreen, { SAMPLE_EXPENSES } from './screens/VisualExpenseGalleryScreen.jsx';
+import SavingPocketsScreen from './screens/SavingPocketsScreen.jsx';
+import SplashScreen from './screens/SplashScreen.jsx';
 import NudgeOverlay from './components/overlays/NudgeOverlay.jsx';
 import DexAnalysisOverlay from './components/overlays/DexAnalysisOverlay.jsx';
 import { Bell, Dices } from 'lucide-react';
 
 export default function App() {
-  const [screen, setScreen] = useState('home'); // home | dex | planner | tomorrow | spin | snap | gallery
+  const [screen, setScreen] = useState('home'); // home | dex | planner | tomorrow | spin | snap | gallery | pockets
+  const [splashDone, setSplashDone] = useState(false);
   const [nudgeOpen, setNudgeOpen] = useState(false);
   const [analysisOpen, setAnalysisOpen] = useState(false);
   const [capturedData, setCapturedData] = useState(null);
   const [galleryExpenses, setGalleryExpenses] = useState(SAMPLE_EXPENSES);
+  const [langkawiAuto, setLangkawiAuto] = useState({ roundUp: false, salary: false });
+  // Shared pocket savings: id → current saved amount
+  const [pocketSavings, setPocketSavings] = useState({ 1: 629.9, 2: 1850, 3: 0 });
+  // Shared pocket activity log: id → array of {id, label, amount, date}
+  const [pocketActivity, setPocketActivity] = useState({
+    1: [
+      { id: 'a1', label: 'Round-up saved', amount: 12.30, date: 'Today' },
+      { id: 'a2', label: 'Auto salary deduction', amount: 200.00, date: 'Yesterday' },
+      { id: 'a3', label: 'Manual top-up', amount: 50.00, date: '7 May' },
+    ],
+    2: [
+      { id: 'b1', label: 'Round-up saved', amount: 18.50, date: 'Today' },
+      { id: 'b2', label: 'Auto salary deduction', amount: 160.00, date: 'Yesterday' },
+      { id: 'b3', label: 'Manual top-up', amount: 100.00, date: '6 May' },
+    ],
+    3: [],
+  });
+
+  function addToPocket(id, amount) {
+    setPocketSavings((prev) => ({ ...prev, [id]: (prev[id] ?? 0) + amount }));
+    setPocketActivity((prev) => ({
+      ...prev,
+      [id]: [
+        { id: Date.now(), label: 'Manual top-up', amount, date: 'Just now' },
+        ...(prev[id] ?? []),
+      ],
+    }));
+  }
+
+  const totalPocketSaved = Object.values(pocketSavings).reduce((s, v) => s + v, 0);
+  const MAIN_ACCOUNT = 8420.10;
+  const totalBalance = MAIN_ACCOUNT + totalPocketSaved;
 
   const addConfirmedExpenseToGallery = (data) => {
     const currentPrice = Number.parseFloat(data?.price ?? '0') || 0;
@@ -44,16 +79,30 @@ export default function App() {
       <DevDock onNudge={() => setNudgeOpen(true)} />
 
     <PhoneFrame>
+      {!splashDone && <SplashScreen onDone={() => setSplashDone(true)} />}
       {screen === 'home' && (
         <HomeScreen
           onOpenDex={() => setScreen('dex')}
           onOpenSpin={() => setScreen('spin')}
           onOpenTomorrow={() => setScreen('tomorrow')}
+          onOpenPockets={() => setScreen('pockets')}
+          pocketTotal={totalPocketSaved}
+          totalBalance={totalBalance}
           onNavigate={(tab) => {
             if (tab === 'upload') {
               setScreen('gallery');
             }
           }}
+        />
+      )}
+      {screen === 'pockets' && (
+        <SavingPocketsScreen
+          onBack={() => setScreen('home')}
+          onAddNew={() => setScreen('planner')}
+          langkawiAuto={langkawiAuto}
+          pocketSavings={pocketSavings}
+          pocketActivity={pocketActivity}
+          onAddMoney={addToPocket}
         />
       )}
       {screen === 'dex' && (
@@ -69,7 +118,8 @@ export default function App() {
       {screen === 'planner' && (
         <GoalPlannerScreen
           onBack={() => setScreen('dex')}
-          onConfirm={() => {
+          onConfirm={(autoSettings) => {
+            setLangkawiAuto(autoSettings);
             setScreen('home');
             setTimeout(() => setNudgeOpen(true), 600);
           }}

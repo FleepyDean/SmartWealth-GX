@@ -143,9 +143,9 @@ export default function RewardModal({ open, prize, onAddToPocket, onClose }) {
               ) : (
                 <button
                   onClick={onAddToPocket}
-                  className="w-full rounded-2xl bg-violet-grad py-3 text-[14px] font-semibold text-white shadow-[0_8px_28px_rgba(124,58,237,0.55)] hover:brightness-110"
+                  className="tap w-full rounded-2xl bg-violet-grad py-3 text-[14px] font-semibold text-white shadow-[0_8px_28px_rgba(124,58,237,0.55)] hover:brightness-110"
                 >
-                  Add to Saving Pocket
+                  Redeem
                 </button>
               )}
               <button

@@ -22,7 +22,7 @@ export default function TomorrowPreviewCard({ onOpen }) {
           <div className="flex-1 min-w-0">
             <p className="text-[18px] font-bold">RM95</p>
             <p className="text-[11px] text-text-secondary mt-0.5 inline-flex items-center gap-1">
-              <CalendarDays size={11} /> Restaurant AA · 12:30 PM
+              <CalendarDays size={11} /> Mama Kim Kopitiam · 12:30 PM
             </p>
             <ul className="mt-2 space-y-0.5 text-[11px] text-text-secondary">
               <li className="flex items-center justify-between">

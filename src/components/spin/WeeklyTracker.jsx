@@ -12,7 +12,7 @@ export default function WeeklyTracker({ completed = 5, spins = 1 }) {
             Weekly Savings Challenge
           </p>
           <p className="mt-1 text-[12px] text-text-secondary">
-            Save RM10 daily to earn a spin!{' '}
+            Save RM30 daily to earn a spin!{' '}
             <span className="text-white font-semibold">({completed}/7 Days completed)</span>
           </p>
         </div>

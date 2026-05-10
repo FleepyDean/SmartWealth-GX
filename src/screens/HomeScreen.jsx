@@ -2,6 +2,7 @@ import React from 'react';
 import HeaderBar from '../components/home/HeaderBar.jsx';
 import QuickActions from '../components/home/QuickActions.jsx';
 import AccountSection from '../components/home/AccountSection.jsx';
+import TransactionList from '../components/home/TransactionList.jsx';
 import StreakCard from '../components/home/StreakCard.jsx';
 import SpinAndWinTeaserCard from '../components/home/SpinAndWinTeaserCard.jsx';
 import TomorrowTeaserCard from '../components/tomorrow/TomorrowTeaserCard.jsx';
@@ -9,14 +10,16 @@ import DexFab from '../components/ui/DexFab.jsx';
 import BottomNav from '../components/ui/BottomNav.jsx';
 import { CalendarDays, Sparkles, TrendingDown, Users } from 'lucide-react';
 
-export default function HomeScreen({ onOpenDex, onOpenTomorrow, onOpenSpin, onNavigate }) {
+export default function HomeScreen({ onOpenDex, onOpenTomorrow, onOpenSpin, onOpenPockets, onNavigate, pocketTotal = 2479.90, totalBalance = 10900 }) {
   return (
     <div className="relative h-full w-full text-white">
       <div className="h-full w-full overflow-y-auto pb-40 no-scrollbar">
-        <HeaderBar />
+        <HeaderBar balance={`RM${totalBalance.toLocaleString('en-MY', { minimumFractionDigits: 2 })}`} />
         <QuickActions />
-        <AccountSection />
-        {/* <StreakCard /> */}
+        <AccountSection onOpenPockets={onOpenPockets} pocketTotal={pocketTotal} />
+
+        {/* Recent transactions */}
+        <TransactionList />
 
         {/* Spin & Win teaser */}
         <SpinAndWinTeaserCard onOpen={onOpenSpin} completedDays={5} availableSpins={1} />
@@ -28,7 +31,7 @@ export default function HomeScreen({ onOpenDex, onOpenTomorrow, onOpenSpin, onNa
 
         {/* Weekly wrap */}
         <div className="px-5 mt-5">
-          <div className="card-hi rounded-3xl bg-card p-4 ring-1 ring-white/5">
+          <div className="card-premium rounded-3xl p-5 ring-1 ring-white/8">
             <div className="flex items-center justify-between">
               <div>
                 <p className="inline-flex items-center gap-1.5 text-[12px] text-text-secondary">

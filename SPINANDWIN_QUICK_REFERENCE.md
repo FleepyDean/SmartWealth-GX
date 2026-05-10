@@ -276,7 +276,7 @@ transition: spinning
 ```jsx
 // Show spin availability in UI
 const spinStatus = {
-  0: 'No spins available. Save RM10 daily!',
+  0: 'No spins available. Save RM30 daily!',
   1: 'You have 1 spin. Use it wisely!',
   2: 'You have 2 spins!',
 };

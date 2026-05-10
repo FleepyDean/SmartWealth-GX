@@ -7,9 +7,11 @@ export default function SpinAndWinTeaserCard({ onOpen, completedDays = 5, availa
   return (
     <button
       onClick={onOpen}
-      className="w-full px-5 mt-5 text-left"
+      className="group w-full px-5 mt-5 text-left"
     >
-      <div className="card-hi relative overflow-hidden rounded-3xl p-5 ring-1 ring-white/5 bg-[linear-gradient(135deg,#4A148C_0%,#7A1FA2_60%,#9F5BFF_100%)]">
+      <div className="lift tap card-hi relative overflow-hidden rounded-3xl p-5 ring-1 ring-white/10 bg-[linear-gradient(135deg,#4A148C_0%,#7A1FA2_60%,#9F5BFF_100%)] hover:ring-white/20 transition-all">
+        {/* Inner highlight stroke */}
+        <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/8" />
         {/* Ambient glow */}
         <div className="absolute -top-12 -right-12 h-48 w-48 rounded-full bg-accent-pink/30 blur-3xl pointer-events-none" />
         <div className="absolute -bottom-8 -left-8 h-40 w-40 rounded-full bg-violet-glow/20 blur-3xl pointer-events-none" />
@@ -25,7 +27,7 @@ export default function SpinAndWinTeaserCard({ onOpen, completedDays = 5, availa
                 <p className="text-[11px] text-white/80">Save daily, earn spins</p>
               </div>
             </div>
-            <ChevronRight size={20} className="text-white/60 group-hover:text-white transition-colors" />
+            <ChevronRight size={20} className="text-white/60 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
           </div>
 
           {/* Progress indicator */}

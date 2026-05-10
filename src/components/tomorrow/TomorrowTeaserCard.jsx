@@ -13,7 +13,7 @@ export default function TomorrowTeaserCard({ onOpen }) {
   return (
     <button
       onClick={onOpen}
-      className="card-hi w-full text-left rounded-3xl p-4 ring-1 ring-white/5 bg-card hover:bg-card-soft transition-colors"
+      className="lift tap group card-premium w-full text-left rounded-3xl p-4 ring-1 ring-white/8 hover:ring-violet-glow/25 transition-all"
     >
       <div className="flex items-center gap-4">
         <div className="shrink-0">

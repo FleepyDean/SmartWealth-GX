@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ArrowLeft, Mic, Send, Sparkles, MoreHorizontal } from 'lucide-react';
+import { ChevronLeft, Mic, Send, Sparkles, MoreHorizontal } from 'lucide-react';
 import ToneChips from '../components/dex/ToneChips.jsx';
 import ChatBubble from '../components/dex/ChatBubble.jsx';
+import TypingIndicator from '../components/dex/TypingIndicator.jsx';
 import TripDraftCard from '../components/dex/TripDraftCard.jsx';
 import LifestyleRecsCard from '../components/dex/LifestyleRecsCard.jsx';
 import TomorrowPreviewCard from '../components/dex/TomorrowPreviewCard.jsx';
@@ -22,6 +23,7 @@ const TRIP_INTRO = {
 export default function DexChatScreen({ onBack, onCreatePocket, onOpenTomorrow }) {
   const [tone, setTone] = useState('professional');
   const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState([
     { id: 1, from: 'dex', type: 'text', text: TONE_GREETING.professional },
   ]);
@@ -29,7 +31,7 @@ export default function DexChatScreen({ onBack, onCreatePocket, onOpenTomorrow }
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: 9e9, behavior: 'smooth' });
-  }, [messages.length]);
+  }, [messages.length, isTyping]);
 
   // Keep the initial greeting in sync with the selected tone.
   useEffect(() => {
@@ -59,9 +61,12 @@ export default function DexChatScreen({ onBack, onCreatePocket, onOpenTomorrow }
     const userMsg = { id: Date.now(), from: 'user', type: 'text', text };
     setMessages((m) => [...m, userMsg]);
     setInput('');
+    setIsTyping(true);
 
     const intent = detectIntent(text);
+    const delay = intent.kind === 'text' ? 900 : 1400;
     setTimeout(() => {
+      setIsTyping(false);
       if (intent.kind === 'tomorrow') {
         setMessages((m) => [
           ...m,
@@ -107,7 +112,7 @@ export default function DexChatScreen({ onBack, onCreatePocket, onOpenTomorrow }
           },
         ]);
       }
-    }, 600);
+    }, delay);
   };
 
   const send = () => sendText(input);
@@ -127,10 +132,10 @@ export default function DexChatScreen({ onBack, onCreatePocket, onOpenTomorrow }
       <div className="px-5 pt-3 pb-4 flex items-center justify-between">
         <button
           onClick={onBack}
-          className="h-10 w-10 rounded-full bg-white/5 ring-1 ring-white/10 flex items-center justify-center"
+          className="tap h-9 w-9 rounded-full bg-white/10 ring-1 ring-white/15 flex items-center justify-center hover:bg-white/15"
           aria-label="Back"
         >
-          <ArrowLeft size={18} />
+          <ChevronLeft size={20} />
         </button>
         <div className="flex items-center gap-3">
           <div className="relative">
@@ -141,10 +146,13 @@ export default function DexChatScreen({ onBack, onCreatePocket, onOpenTomorrow }
           </div>
           <div className="leading-tight">
             <p className="text-[15px] font-semibold">Dex</p>
-            <p className="text-[11px] text-accent-mint">AI Assistant</p>
+            <p className="text-[11px] text-accent-mint inline-flex items-center gap-1">
+              <span className="h-1.5 w-1.5 rounded-full bg-accent-mint animate-pulse" />
+              {isTyping ? 'typing…' : 'Online'}
+            </p>
           </div>
         </div>
-        <button className="h-10 w-10 rounded-full bg-white/5 ring-1 ring-white/10 flex items-center justify-center">
+        <button className="tap h-9 w-9 rounded-full bg-white/10 ring-1 ring-white/15 flex items-center justify-center hover:bg-white/15">
           <MoreHorizontal size={18} />
         </button>
       </div>
@@ -212,6 +220,7 @@ export default function DexChatScreen({ onBack, onCreatePocket, onOpenTomorrow }
             </ChatBubble>
           );
         })}
+        {isTyping && <TypingIndicator />}
       </div>
 
       {/* Suggestion chips */}

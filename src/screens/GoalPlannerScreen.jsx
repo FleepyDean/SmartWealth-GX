@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Plane, Hotel, UtensilsCrossed, Coins, Wallet } from 'lucide-react';
+import { ChevronLeft, Plane, Hotel, UtensilsCrossed, Coins, Wallet } from 'lucide-react';
 import ProgressRing from '../components/planner/ProgressRing.jsx';
 import AutoToggle from '../components/planner/AutoToggle.jsx';
 
@@ -10,22 +10,22 @@ const ITEMS = [
 ];
 
 export default function GoalPlannerScreen({ onBack, onConfirm }) {
-  const [roundUp, setRoundUp] = useState(true);
+  const [roundUp, setRoundUp] = useState(false);
   const [salary, setSalary] = useState(false);
   const total = ITEMS.reduce((s, i) => s + i.amount, 0);
 
   return (
     <div className="relative h-full w-full text-white flex flex-col">
-      <div className="px-5 pt-3 pb-2 flex items-center justify-between">
+      <div className="px-5 pt-4 pb-2 flex items-center justify-between">
         <button
           onClick={onBack}
-          className="h-10 w-10 rounded-full bg-white/5 ring-1 ring-white/10 flex items-center justify-center"
+          className="tap h-9 w-9 rounded-full bg-white/10 ring-1 ring-white/15 flex items-center justify-center hover:bg-white/15"
           aria-label="Back"
         >
-          <ArrowLeft size={18} />
+          <ChevronLeft size={20} />
         </button>
         <p className="text-[15px] font-semibold">New Savings Pocket</p>
-        <div className="h-10 w-10" />
+        <div className="h-9 w-9" />
       </div>
 
       <div className="flex-1 overflow-y-auto no-scrollbar px-5 pb-32">
@@ -89,7 +89,7 @@ export default function GoalPlannerScreen({ onBack, onConfirm }) {
       {/* Confirm button */}
       <div className="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-bg-900 via-bg-900/80 to-transparent">
         <button
-          onClick={onConfirm}
+          onClick={() => onConfirm({ roundUp, salary })}
           className="w-full rounded-2xl bg-violet-grad py-4 text-[15px] font-semibold text-white shadow-[0_10px_32px_rgba(124,58,237,0.6)] hover:brightness-110"
         >
           Confirm & Start Saving

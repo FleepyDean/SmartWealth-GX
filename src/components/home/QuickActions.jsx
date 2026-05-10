@@ -12,8 +12,8 @@ export default function QuickActions() {
 
 function ActionPill({ icon, label }) {
   return (
-    <button className="card-hi flex items-center gap-3 rounded-full bg-card pl-2 pr-5 py-2 ring-1 ring-white/5 hover:bg-card-soft transition-colors">
-      <span className="h-9 w-9 rounded-full bg-violet-grad flex items-center justify-center shadow-[0_4px_18px_rgba(124,58,237,0.55)]">
+    <button className="lift tap card-premium flex items-center gap-3 rounded-full pl-2 pr-5 py-2 ring-1 ring-white/8 hover:ring-violet-glow/30">
+      <span className="h-9 w-9 rounded-full bg-violet-grad flex items-center justify-center shadow-[0_4px_18px_rgba(124,58,237,0.55)] ring-1 ring-white/15">
         {icon}
       </span>
       <span className="text-[14px] font-semibold text-white">{label}</span>
