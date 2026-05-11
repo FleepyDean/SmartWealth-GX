@@ -2,6 +2,7 @@
 
 A high-fidelity mobile app prototype built for the **GXBank "Youth Resilience"** hackathon. Designed to look and feel like a real production app — dark purple/magenta glassmorphism theme, AI financial assistant ("Dex"), dynamic saving pockets, gamified saving streaks, and intelligent budget nudges.
 
+Prototype link: https://gxbank-dex-prototype.netlify.app/ 
 ---
 
 ## Stack
